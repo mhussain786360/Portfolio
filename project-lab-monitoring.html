@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Environmental Monitoring System | Muhammad Mubashar</title>
+    <meta name="description" content="Technical details and implementation walkthrough of the Lab Environmental Monitoring System.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .project-detail-section {
+            padding: 8rem 0 4rem;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+        .back-link:hover {
+            transform: translateX(-5px);
+            color: var(--accent-green);
+        }
+        .project-header {
+            margin-bottom: 3rem;
+        }
+        .project-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .project-meta-info {
+            display: flex;
+            gap: 2rem;
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .project-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        @media (max-width: 992px) {
+            .project-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        .main-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .info-card {
+            padding: 2rem;
+        }
+        .info-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 0.5rem;
+            color: var(--accent-blue);
+        }
+        .info-card p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .info-card ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .info-card li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.75rem 1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border-bottom: 1px solid var(--border-subtle);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+        .code-container {
+            background: rgba(1, 18, 28, 0.4);
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        .code-block {
+            margin: 0;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            background: transparent;
+            color: #d1f4ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-overlay"></div>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Muhammad <span>Mubashar</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#blogs">Blogs</a></li>
+                <li><a href="index.html#education">Education</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+                <div class="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container project-detail-section">
+        <a href="index.html#projects" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Back to Projects
+        </a>
+
+        <div class="project-header">
+            <h1 class="project-title text-gradient">Lab Environmental Monitoring System</h1>
+            <div class="project-meta-info">
+                <div class="meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span>Apr 2025 – May 2025</span>
+                </div>
+                <div class="meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    <span>Academic Project (MUET)</span>
+                </div>
+            </div>
+            <div class="tags">
+                <span class="tag">Arduino Uno</span>
+                <span class="tag">C/C++</span>
+                <span class="tag">I2C Protocol</span>
+                <span class="tag">Sensors</span>
+            </div>
+        </div>
+
+        <div class="project-layout">
+            <div class="main-info">
+                <div class="info-card glass-panel">
+                    <h3>Project Overview</h3>
+                    <p>
+                        In environments sensitive to environmental changes (such as chemical labs, clinical cleanrooms, or high-precision calibration labs), maintaining constant ambient light intensity, temperature, and relative humidity is critical. Even slight deviations can trigger unwanted chemical reactions or corrupt test calibrations.
+                    </p>
+                    <p>
+                        The <strong>Lab Environmental Monitoring System</strong> was designed and engineered as a continuous, low-latency monitoring solution. Interfacing high-precision digital sensors with an AVR-based Arduino Uno microcontroller, the system monitors ambient light intensity (lux) and climate parameters, providing real-time local output alerts and preparing data structures for future IoT automation.
+                    </p>
+                </div>
+
+                <div class="info-card glass-panel">
+                    <h3>Technical Implementation & Architecture</h3>
+                    <p>
+                        The core architectural flow involves high-frequency sensor reading loops, noise filtering, threshold testing, and real-time visualization:
+                    </p>
+                    <ul>
+                        <li><strong>High-Precision Light Sensing:</strong> Integrated the BH1750 digital ambient light sensor. Unlike analog photoresistors, the BH1750 directly outputs digital values in Lux over the I2C bus (standard address 0x23), avoiding analog voltage drop errors and noise over longer lines.</li>
+                        <li><strong>Microclimate Sensing:</strong> Deployed a DHT11 sensor using a custom library protocol to sample relative humidity and temperature periodically, ensuring consistent readings without blocking microcontroller execution.</li>
+                        <li><strong>Non-Blocking I2C Bus Management:</strong> Configured direct register polling on the Atmega328p hardware I2C peripheral, optimizing the clock speed to 400kHz (Fast Mode) to minimize sensor polling latency.</li>
+                        <li><strong>Local Indicator Logic:</strong> Set up visual LED alarms that trigger instantly when light levels cross calibrated upper/lower thresholds, ensuring rapid alerts for lab technicians.</li>
+                    </ul>
+                </div>
+
+                <div class="info-card glass-panel">
+                    <h3>Firmware Walkthrough</h3>
+                    <p>
+                        The firmware is written in C++ for the Arduino platform, prioritizing modular structure and low execution overhead. Below is the simplified core loop handling the I2C bus interface and the logic for the sensors:
+                    </p>
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span>firmware.ino</span>
+                            <span>C++ (Arduino)</span>
+                        </div>
+                        <pre class="code-block"><code>#include &lt;Wire.h&gt;
+#include &lt;DHT.h&gt;
+
+#define DHTPIN 2
+#define DHTTYPE DHT11
+#define LED_ALERT_PIN 13
+
+// Calibration and Threshold limits
+const float LUX_LOW_LIMIT = 100.0; 
+const float LUX_HIGH_LIMIT = 1000.0;
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+  dht.begin();
+  
+  pinMode(LED_ALERT_PIN, OUTPUT);
+  
+  // Configure BH1750 for High Resolution Mode (1lx resolution)
+  Wire.beginTransmission(0x23);
+  Wire.write(0x10); // Continuously H-Resolution Mode
+  Wire.endTransmission();
+  
+  Serial.println("System Initialized. Sampling started...");
+}
+
+void loop() {
+  // Read Temperature and Humidity from DHT11
+  float temp = dht.readTemperature();
+  float hum = dht.readHumidity();
+
+  // Read Lux value from BH1750 over I2C
+  int rawLux = 0;
+  Wire.beginTransmission(0x23);
+  Wire.requestFrom(0x23, 2);
+  if (Wire.available() == 2) {
+    rawLux = Wire.read();
+    rawLux <<= 8;
+    rawLux |= Wire.read();
+  }
+  Wire.endTransmission();
+  
+  float lux = rawLux / 1.2; // Convert to Lux per datasheet
+  
+  // Threshold assessment
+  if (lux < LUX_LOW_LIMIT || lux > LUX_HIGH_LIMIT) {
+    digitalWrite(LED_ALERT_PIN, HIGH); // Alarm ON
+  } else {
+    digitalWrite(LED_ALERT_PIN, LOW);  // Alarm OFF
+  }
+
+  // Log values
+  Serial.print("Temp: "); Serial.print(temp); Serial.print(" C | ");
+  Serial.print("Hum: "); Serial.print(hum); Serial.print(" % | ");
+  Serial.print("Light: "); Serial.print(lux); Serial.println(" lx");
+
+  delay(1000); // Sample rate limit
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="info-card glass-panel">
+                    <h3>Project Details</h3>
+                    <ul>
+                        <li><strong>Timeline:</strong> 2 months</li>
+                        <li><strong>Host/Controller:</strong> Atmega328P (Arduino Uno)</li>
+                        <li><strong>Sensors:</strong> BH1750 (Digital Lux), DHT11 (Temp/Humidity)</li>
+                        <li><strong>Protocols:</strong> I2C, Standard Serial</li>
+                        <li><strong>Firmware Language:</strong> Embedded C/C++</li>
+                    </ul>
+                </div>
+
+                <div class="info-card glass-panel">
+                    <h3>System Features</h3>
+                    <ul>
+                        <li>Low-level register configurations for custom hardware interfaces.</li>
+                        <li>High-frequency, low-latency sampling loop.</li>
+                        <li>Dual-sensor integration with zero analog noise.</li>
+                        <li>Physical LED alert triggers based on calibrated database parameters.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-logo">
+                Muhammad <span>Mubashar</span>
+            </div>
+            <p class="footer-text">Building stable, scalable, and automated solutions.</p>
+            <div class="footer-socials">
+                <a href="https://github.com/mhussain786360" target="_blank" class="social-icon">GitHub</a>
+                <a href="https://linkedin.com/in/muhammadmubashar2456" target="_blank" class="social-icon">LinkedIn</a>
+                <a href="mailto:hussainmubashar110@gmail.com" class="social-icon">Email</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Muhammad Mubashar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

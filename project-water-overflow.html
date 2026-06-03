@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Water Overflow Control | Muhammad Mubashar</title>
+    <meta name="description" content="Technical details and closed-loop control walkthrough of the Automated Water Overflow Control system.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .project-detail-section {
+            padding: 8rem 0 4rem;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+        .back-link:hover {
+            transform: translateX(-5px);
+            color: var(--accent-green);
+        }
+        .project-header {
+            margin-bottom: 3rem;
+        }
+        .project-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .project-meta-info {
+            display: flex;
+            gap: 2rem;
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .project-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        @media (max-width: 992px) {
+            .project-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        .main-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .info-card {
+            padding: 2rem;
+        }
+        .info-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 0.5rem;
+            color: var(--accent-blue);
+        }
+        .info-card p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .info-card ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .info-card li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.75rem 1.5rem;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border-bottom: 1px solid var(--border-subtle);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+        .code-container {
+            background: rgba(1, 18, 28, 0.4);
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        .code-block {
+            margin: 0;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            background: transparent;
+            color: #d1f4ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-overlay"></div>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Muhammad <span>Mubashar</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#blogs">Blogs</a></li>
+                <li><a href="index.html#education">Education</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+                <div class="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container project-detail-section">
+        <a href="index.html#projects" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Back to Projects
+        </a>
+
+        <div class="project-header">
+            <h1 class="project-title text-gradient">Automated Water Overflow Control</h1>
+            <div class="project-meta-info">
+                <div class="meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span>Intermediate Project</span>
+                </div>
+                <div class="meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    <span>MAAN English Public School</span>
+                </div>
+            </div>
+            <div class="tags">
+                <span class="tag">Arduino IDE</span>
+                <span class="tag">C/C++</span>
+                <span class="tag">Ultrasonic Sensor</span>
+                <span class="tag">Relay Modules</span>
+            </div>
+        </div>
+
+        <div class="project-layout">
+            <div class="main-info">
+                <div class="info-card glass-panel">
+                    <h3>Project Overview</h3>
+                    <p>
+                        In many residential and educational complexes in water-stressed regions, manual water pump switching is a common source of resource waste. Forgetting to turn off a high-voltage pump leads to massive water overflow and excessive electrical consumption.
+                    </p>
+                    <p>
+                        The <strong>Automated Water Overflow Control System</strong> was developed during my intermediate studies at MAAN English Public School to address this challenge. It implements an autonomous closed-loop feedback controller that continuously checks the tank's water level and toggles a high-power AC pump via a safe low-voltage relay trigger, preventing any overflow.
+                    </p>
+                </div>
+
+                <div class="info-card glass-panel">
+                    <h3>Closed-Loop Feedback Control Design</h3>
+                    <p>
+                        The system works as a hysteresis-based closed-loop controller:
+                    </p>
+                    <ul>
+                        <li><strong>Ultrasonic Ranging:</strong> Deployed the HC-SR04 ultrasonic distance sensor. The microcontroller triggers a 10µs pulse on the transmitter pin, causing it to emit an 8-cycle ultrasonic burst. It then measures the echo pin pulse duration to compute the exact air gap distance above the water surface.</li>
+                        <li><strong>Hysteresis Thresholds:</strong> To prevent rapid, unwanted relay switching ("chattering") due to surface ripples, a double-threshold system was programmed:
+                            <ul>
+                                <li><strong>Low Water Limit (Empty):</strong> Triggers the relay ON when the distance exceeds the maximum threshold (e.g. 80cm from the sensor).</li>
+                                <li><strong>High Water Limit (Full):</strong> Triggers the relay OFF when the distance drops below the minimum safety threshold (e.g. 15cm from the sensor).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Optocoupler Isolation:</strong> Used a relay driver board with optocoupler isolation, isolating the sensitive microcontroller circuit from high-voltage AC spikes generated by the pump.</li>
+                    </ul>
+                </div>
+
+                <div class="info-card glass-panel">
+                    <h3>Firmware Design</h3>
+                    <p>
+                        The code below demonstrates the pulse duration calculation and the output relay trigger system:
+                    </p>
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span>water_pump_control.ino</span>
+                            <span>C++ (Arduino)</span>
+                        </div>
+                        <pre class="code-block"><code>const int trigPin = 9;
+const int echoPin = 10;
+const int relayPin = 8;
+
+// Hysteresis calibration in centimeters
+const int DIST_EMPTY = 80; // Distance to bottom (Pump starts)
+const int DIST_FULL  = 15; // Distance to top safety limit (Pump stops)
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(relayPin, OUTPUT);
+  
+  // Set default state (Relay active-low or active-high)
+  digitalWrite(relayPin, HIGH); // Assuming active-low: Relay OFF
+}
+
+void loop() {
+  long duration;
+  int distance;
+  
+  // Trigger sensor pulse
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  // Measure pulse duration on echo pin (in microseconds)
+  duration = pulseIn(echoPin, HIGH);
+  
+  // Convert duration to distance (Speed of sound = 340m/s -> 29.1 us/cm)
+  distance = duration / 29.1 / 2;
+  
+  if (distance > 0 && distance < 200) { // Filter out-of-range sensor noise
+    Serial.print("Water distance to sensor: ");
+    Serial.print(distance);
+    Serial.println(" cm");
+    
+    // Hysteresis control loop
+    if (distance >= DIST_EMPTY) {
+      digitalWrite(relayPin, LOW);  // Turn ON Pump (Relay ACTIVE)
+      Serial.println("Tank empty. Pump ON.");
+    } 
+    else if (distance <= DIST_FULL) {
+      digitalWrite(relayPin, HIGH); // Turn OFF Pump (Relay INACTIVE)
+      Serial.println("Tank full. Pump OFF.");
+    }
+  }
+  
+  delay(1000); // 1-second sample loop interval
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="info-card glass-panel">
+                    <h3>Project Details</h3>
+                    <ul>
+                        <li><strong>Sensors:</strong> HC-SR04 Ultrasonic Distance Sensor</li>
+                        <li><strong>Relay Controller:</strong> 5V single-channel relay module</li>
+                        <li><strong>Firmware Base:</strong> Arduino C/C++</li>
+                        <li><strong>Target Pump Load:</strong> 220V AC / 1HP Pump</li>
+                        <li><strong>Calibration Style:</strong> Dual-threshold Hysteresis Loop</li>
+                    </ul>
+                </div>
+
+                <div class="info-card glass-panel">
+                    <h3>Key Highlights</h3>
+                    <ul>
+                        <li>Low-cost micro-controller prototyping.</li>
+                        <li>Optocoupled relay interface for high-voltage protection.</li>
+                        <li>Robust distance range filtering to prevent sensor misfires.</li>
+                        <li>Hysteresis triggers to extend the life of the relay contacts.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-logo">
+                Muhammad <span>Mubashar</span>
+            </div>
+            <p class="footer-text">Building stable, scalable, and automated solutions.</p>
+            <div class="footer-socials">
+                <a href="https://github.com/mhussain786360" target="_blank" class="social-icon">GitHub</a>
+                <a href="https://linkedin.com/in/muhammadmubashar2456" target="_blank" class="social-icon">LinkedIn</a>
+                <a href="mailto:hussainmubashar110@gmail.com" class="social-icon">Email</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Muhammad Mubashar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
